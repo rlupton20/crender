@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include <surface.h>
+#include <vector.h>
 
 int
 main(int argc, char* argv[])
@@ -29,6 +30,10 @@ main(int argc, char* argv[])
 
   surface_t* surface = new_surface(window);
   screen_t screen = get_screen(surface);
+
+  const vec3_t a = vec3(10, 10, 10);
+  const vec3_t b = vec3(100, 100, 10);
+  const vec3_t c = vec3(100, 10, 10);
 
   for (bool quit = false; !quit;) {
 

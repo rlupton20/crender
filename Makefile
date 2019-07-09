@@ -9,9 +9,9 @@ OBJS=$(SRCS:src/%.c=build/%.o)
 
 .PHONY = all clean format
 
-all: example
+all: example/example
 
-example: $(OBJS) example/main.c
+example/example: $(OBJS) example/main.c
 		$(CC) $(CFLAGS) $(INCLUDES) $^ -o $(BUILDDIR)/example $(SDL_FLAGS)
 
 build/%.o: src/%.c

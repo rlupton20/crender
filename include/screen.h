@@ -21,7 +21,7 @@ color(uint8_t r, uint8_t g, uint8_t b)
 }
 
 inline void
-set_pixel(screen_t *const screen, size_t x, size_t y, color_t color)
+set_pixel(screen_t* const screen, size_t x, size_t y, color_t color)
 {
   // TODO Add bounds check
   screen->pixel_buffer[y * screen->width + x] = color;
