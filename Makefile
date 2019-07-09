@@ -14,9 +14,10 @@ all: example
 example: $(OBJS) example/main.c
 		$(CC) $(CFLAGS) $(INCLUDES) $^ -o $(BUILDDIR)/example $(SDL_FLAGS)
 
-build/%.o: src/*.c
+build/%.o: src/%.c
 		@mkdir -p $(BUILDDIR)
 		$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
+
 
 clean:
 			rm -rf $(BUILDDIR)

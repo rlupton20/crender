@@ -4,7 +4,7 @@ struct surface_t
 {
   SDL_Renderer* renderer;
   SDL_Texture* texture;
-  uint32_t* pixels;
+  color_t* pixels;
   size_t height;
   size_t width;
 };
@@ -57,4 +57,12 @@ render(const surface_t* surface)
   SDL_RenderClear(surface->renderer);
   SDL_RenderCopy(surface->renderer, surface->texture, NULL, NULL);
   SDL_RenderPresent(surface->renderer);
+}
+
+screen_t
+get_screen(const surface_t* const surface)
+{
+  return (screen_t){ .pixel_buffer = surface->pixels,
+                     .width = surface->width,
+                     .height = surface->height };
 }

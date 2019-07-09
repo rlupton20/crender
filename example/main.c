@@ -28,6 +28,7 @@ main(int argc, char* argv[])
   }
 
   surface_t* surface = new_surface(window);
+  screen_t screen = get_screen(surface);
 
   for (bool quit = false; !quit;) {
 
@@ -36,6 +37,8 @@ main(int argc, char* argv[])
         quit = true;
       }
     }
+
+    clear_screen(&screen, color(0, 0, 50));
 
     // Update our render
     render(surface);
