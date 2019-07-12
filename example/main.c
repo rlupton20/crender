@@ -4,8 +4,21 @@
 
 #include <surface.h>
 #include <vector.h>
+#include <vertex.h>
 
 #include <triangle.h>
+
+/*
+ * Populate three vertices to form a triangle.
+ *
+ * Returns true if and only if it succeeds, and false otherwise
+ * leaving the vertices unchanged.
+ */
+bool
+get_triangle(mesh_iter_t* const iter,
+             vertex_t* const a,
+             vertex_t* const b,
+             vertex_t* const c);
 
 int
 main(int argc, char* argv[])
@@ -33,9 +46,8 @@ main(int argc, char* argv[])
   surface_t* surface = new_surface(window);
   screen_t screen = get_screen(surface);
 
-  const vec3_t a = vec3(100, 500, 10);
-  const vec3_t b = vec3(700, 500, 10);
-  const vec3_t c = vec3(400, 100, 10);
+  mesh_t mesh = example_mesh();
+  vertex_t a = { 0 }, b = { 0 }, c = { 0 };
 
   for (bool quit = false; !quit;) {
 
@@ -46,7 +58,11 @@ main(int argc, char* argv[])
     }
 
     clear_screen(&screen, color(0, 0, 50));
-    draw_triangle_xy(&screen, a, b, c);
+
+    for (mesh_iter_t iterator = mesh_iterator(&mesh);
+         get_triangle(&iterator, &a, &b, &c);) {
+      draw_triangle_xy(&screen, a.pos, b.pos, c.pos);
+    }
 
     // Update our render
     render(surface);
@@ -59,4 +75,23 @@ main(int argc, char* argv[])
 
   SDL_Quit();
   return 0;
+}
+
+bool
+get_triangle(mesh_iter_t* const iter,
+             vertex_t* const a,
+             vertex_t* const b,
+             vertex_t* const c)
+{
+  if (remaining(iter) < 2) {
+    return false;
+  }
+
+  vertex_t* vertices[3] = { a, b, c };
+  for (size_t ix = 0; ix < 3; ++ix) {
+    *(vertices[ix]) = get_vertex(iter);
+    next(iter);
+  }
+
+  return true;
 }
