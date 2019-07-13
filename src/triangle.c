@@ -58,15 +58,15 @@ inside_triangle(const vec3_t barycentric_coords)
 
 void
 draw_triangle_xy(screen_t* const screen,
-                 const vec3_t a,
-                 const vec3_t b,
-                 const vec3_t c)
+                 const vertex_t a,
+                 const vertex_t b,
+                 const vertex_t c)
 {
-  const vec4_t box = bounding_box(a, b, c);
+  const vec4_t box = bounding_box(a.pos, b.pos, c.pos);
 
   for (size_t x = box.x; x <= box.z; ++x) {
     for (size_t y = box.y; y <= box.w; ++y) {
-      const vec3_t coords = get_barycentric_coords(x, y, a, b, c);
+      const vec3_t coords = get_barycentric_coords(x, y, a.pos, b.pos, c.pos);
 
       if (inside_triangle(coords)) {
         set_pixel(screen, x, y, color(255, 255, 255));

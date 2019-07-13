@@ -74,7 +74,7 @@ main(int argc, char* argv[])
 
     for (mesh_iter_t iterator = mesh_iterator(&mesh);
          get_triangle(&iterator, &a, &b, &c);) {
-      draw_triangle_xy(&screen, a.pos, b.pos, c.pos);
+      draw_triangle_xy(&screen, a, b, c);
     }
 
     // Update our render

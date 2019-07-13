@@ -1,10 +1,10 @@
 #pragma once
 
 #include <screen.h>
-#include <vector.h>
+#include <vertex.h>
 
 void
 draw_triangle_xy(screen_t* const screen,
-                 const vec3_t a,
-                 const vec3_t b,
-                 const vec3_t c);
+                 const vertex_t a,
+                 const vertex_t b,
+                 const vertex_t c);
