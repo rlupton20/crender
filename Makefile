@@ -1,6 +1,7 @@
 SDL_FLAGS:=$(shell pkg-config --cflags --libs sdl2)
 CFLAGS+=-Wall -std=c11
-INCLUDES=-Iinclude/
+INCLUDES=-Iinclude/ -I$(STB_HEADER_PATH)
+LINKER_FLAGS=-lm
 BUILDDIR=build/
 CC=gcc
 
@@ -12,7 +13,7 @@ OBJS=$(SRCS:src/%.c=build/%.o)
 all: example/example
 
 example/example: $(OBJS) example/main.c
-		$(CC) $(CFLAGS) $(INCLUDES) $^ -o $(BUILDDIR)/example $(SDL_FLAGS)
+		$(CC) $(CFLAGS) $(INCLUDES) $^ -o $(BUILDDIR)/example $(SDL_FLAGS) $(LINKER_FLAGS)
 
 build/%.o: src/%.c
 		@mkdir -p $(BUILDDIR)

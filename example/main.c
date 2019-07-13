@@ -6,6 +6,7 @@
 #include <vector.h>
 #include <vertex.h>
 
+#include <texture.h>
 #include <triangle.h>
 
 /*
@@ -23,6 +24,18 @@ get_triangle(mesh_iter_t* const iter,
 int
 main(int argc, char* argv[])
 {
+  if (argc < 2) {
+    printf("Need to specify image\n");
+    return 1;
+  }
+
+  const char* const texture_file = argv[1];
+  texture_t* const texture = texture_from_file(texture_file);
+  if (!texture) {
+    printf("Error loading texture '%s'!\n", texture_file);
+    return 1;
+  }
+
   const size_t width = 800;
   const size_t height = 600;
 
@@ -74,6 +87,8 @@ main(int argc, char* argv[])
   window = NULL;
 
   SDL_Quit();
+
+  destroy_texture(texture);
   return 0;
 }
 
