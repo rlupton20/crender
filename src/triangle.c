@@ -27,6 +27,7 @@ max3(float a, float b, float c)
   return max(a, max(b, c));
 }
 
+/* l1 . a + l2 . b + (1 - l1 - l2) c */
 inline vec3_t
 get_barycentric_coords(size_t x,
                        size_t y,
