@@ -1,12 +1,8 @@
 #pragma once
 /* Macros to provide a basic test infrastructure */
-#include <stdatomic.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-atomic_uintmax_t failed = 0;
-atomic_uintmax_t passed = 0;
 
 #define ASSERT(cond)                                                           \
   {                                                                            \
@@ -24,22 +20,11 @@ atomic_uintmax_t passed = 0;
 #define RUN_TEST(test)                                                         \
   {                                                                            \
     printf("%-50s \t", #test);                                                 \
-    if ((test)() == true) {                                                    \
-      printf("\x1b[32m\x1b[1mPASS\x1b[0m\n");                                  \
-      ++passed; \
-    } else {                                                                   \
-      ++failed;                                                                \
-    }                                                                          \
+    _RUN_TEST((test));                                                         \
   }
 
 void
-summarise_results(void)
-{
-  printf("\n\nSummary\n=======\n\n");
-  printf("Passed: %zu\nFailed: %zu\n\n", passed, failed);
-  if (failed) {
-    exit(1);
-  } else {
-    printf("Success!\n\n");
-  }
-}
+_RUN_TEST(bool(test)(void));
+
+void
+summarise_results(void);
