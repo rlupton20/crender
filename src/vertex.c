@@ -32,6 +32,7 @@ get_vertex(const mesh_iter_t* const iter)
   vertex_t v = { 0 };
   const float* const base = iter->mesh->vertex_data + offset(iter);
   v.pos = vec3(base[0], base[1], base[2]);
+  v.surface = vec2(base[3], base[4]);
   return v;
 }
 
@@ -44,15 +45,19 @@ offset(const mesh_iter_t* const iter)
 /*
  * Demo example
  */
-static float vertices[] = { 100, 500, 10, 700, 500, 10, 400, 100, 10 };
+/* clang-format off */
+static float vertices[] = { 100, 500, 10, 0, 0,
+                            700, 500, 10, 1, 0,
+                            400, 100, 10 ,0.5, 1};
 static size_t indices[] = { 0, 1, 2 };
+/* clang-format on */
 
 mesh_t
 example_mesh()
 {
   return (mesh_t){ .vertex_data = vertices,
                    .num_vertices = 3,
-                   .stride = 3,
+                   .stride = 5,
                    .indices = indices,
                    .num_indices = 3 };
 }

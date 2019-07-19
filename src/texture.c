@@ -50,11 +50,10 @@ color_t
 sample_texture(const texture_t* const texture, float x, float y)
 {
   // TODO Bounds check
-  const size_t tx = texture->width * x;
-  const size_t ty = texture->height * y;
+  const size_t tx = (size_t)roundf((float)texture->width * x);
+  const size_t ty = (size_t)roundf((float)texture->height * y);
 
-  const size_t offset = num_components * (ty * texture->width + tx);
-  const color_t* const color = (color_t*)(texture->data + offset);
+  const size_t offset = ty * texture->width + tx;
 
-  return *color;
+  return ((color_t*)texture->data)[offset];
 }

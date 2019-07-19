@@ -57,8 +57,18 @@ inside_triangle(const vec3_t barycentric_coords)
          barycentric_coords.x + barycentric_coords.y <= 1;
 }
 
+inline vec2_t
+interpolate(vec3_t barycentric_coords, vec2_t a, vec2_t b, vec2_t c)
+{
+  const float l1 = barycentric_coords.x;
+  const float l2 = barycentric_coords.y;
+  const float l3 = barycentric_coords.z;
+  return vec2(a.x * l1 + b.x * l2 + c.x * l3, a.y * l1 + b.y * l2 + c.y * l3);
+}
+
 void
 draw_triangle_xy(screen_t* const screen,
+                 const texture_t* const texture,
                  const vertex_t a,
                  const vertex_t b,
                  const vertex_t c)
@@ -70,7 +80,9 @@ draw_triangle_xy(screen_t* const screen,
       const vec3_t coords = get_barycentric_coords(x, y, a.pos, b.pos, c.pos);
 
       if (inside_triangle(coords)) {
-        set_pixel(screen, x, y, color(255, 255, 255));
+        const vec2_t sample =
+          interpolate(coords, a.surface, b.surface, c.surface);
+        set_pixel(screen, x, y, sample_texture(texture, sample.x, sample.y));
       }
     }
   }
