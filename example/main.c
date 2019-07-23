@@ -2,24 +2,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include <pipeline.h>
 #include <surface.h>
-#include <vector.h>
-#include <vertex.h>
-
 #include <texture.h>
-#include <triangle.h>
-
-/*
- * Populate three vertices to form a triangle.
- *
- * Returns true if and only if it succeeds, and false otherwise
- * leaving the vertices unchanged.
- */
-bool
-get_triangle(mesh_iter_t* const iter,
-             vertex_t* const a,
-             vertex_t* const b,
-             vertex_t* const c);
 
 int
 main(int argc, char* argv[])
@@ -60,7 +45,8 @@ main(int argc, char* argv[])
   screen_t screen = get_screen(surface);
 
   mesh_t mesh = example_mesh(texture);
-  vertex_t a = { 0 }, b = { 0 }, c = { 0 };
+
+  render_pipeline_t pipeline = default_pipeline(&mesh);
 
   for (bool quit = false; !quit;) {
 
@@ -70,12 +56,9 @@ main(int argc, char* argv[])
       }
     }
 
+    // Redraw the scene
     clear_screen(&screen, color(0, 0, 50));
-
-    for (mesh_iter_t iterator = mesh_iterator(&mesh);
-         get_triangle(&iterator, &a, &b, &c);) {
-      draw_triangle_xy(&screen, mesh.texture, a, b, c);
-    }
+    run_pipeline(&pipeline, &screen);
 
     // Update our render
     render(surface);
@@ -90,23 +73,4 @@ main(int argc, char* argv[])
 
   destroy_texture(texture);
   return 0;
-}
-
-bool
-get_triangle(mesh_iter_t* const iter,
-             vertex_t* const a,
-             vertex_t* const b,
-             vertex_t* const c)
-{
-  if (remaining(iter) < 2) {
-    return false;
-  }
-
-  vertex_t* vertices[3] = { a, b, c };
-  for (size_t ix = 0; ix < 3; ++ix) {
-    *(vertices[ix]) = get_vertex(iter);
-    next(iter);
-  }
-
-  return true;
 }
