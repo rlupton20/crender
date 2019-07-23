@@ -53,11 +53,12 @@ static size_t indices[] = { 0, 1, 2 };
 /* clang-format on */
 
 mesh_t
-example_mesh()
+example_mesh(const texture_t* const texture)
 {
   return (mesh_t){ .vertex_data = vertices,
                    .num_vertices = 3,
                    .stride = 5,
                    .indices = indices,
-                   .num_indices = 3 };
+                   .num_indices = 3,
+                   .texture = texture };
 }

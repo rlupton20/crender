@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <vector.h>
 
+#include <texture.h>
+
 typedef struct vertex_t vertex_t;
 typedef struct mesh_t mesh_t;
 typedef struct mesh_iter_t mesh_iter_t;
@@ -22,6 +24,7 @@ struct mesh_t
   const size_t stride;   /* The number of floating point numbers per vertex */
   size_t* const indices; /* A sequence of vertices forming a mesh */
   const size_t num_indices; /* Number of vertices in sequence forming a mesh */
+  const texture_t* const texture;
 };
 
 struct mesh_iter_t
@@ -58,4 +61,4 @@ get_vertex(const mesh_iter_t* const iter);
  */
 
 mesh_t
-example_mesh();
+example_mesh(const texture_t* const texture);

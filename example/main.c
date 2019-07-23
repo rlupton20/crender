@@ -59,7 +59,7 @@ main(int argc, char* argv[])
   surface_t* surface = new_surface(window);
   screen_t screen = get_screen(surface);
 
-  mesh_t mesh = example_mesh();
+  mesh_t mesh = example_mesh(texture);
   vertex_t a = { 0 }, b = { 0 }, c = { 0 };
 
   for (bool quit = false; !quit;) {
@@ -74,7 +74,7 @@ main(int argc, char* argv[])
 
     for (mesh_iter_t iterator = mesh_iterator(&mesh);
          get_triangle(&iterator, &a, &b, &c);) {
-      draw_triangle_xy(&screen, texture, a, b, c);
+      draw_triangle_xy(&screen, mesh.texture, a, b, c);
     }
 
     // Update our render
