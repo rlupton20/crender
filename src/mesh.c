@@ -46,9 +46,9 @@ offset(const mesh_iter_t* const iter)
  * Demo example
  */
 /* clang-format off */
-static float vertices[] = { 100, 500, 10, 0, 0,
-                            700, 500, 10, 1, 0,
-                            400, 100, 10 ,0.5, 1};
+static float vertices[] = { -0.5, -0.5, 10, 0, 0,
+                            0.5, -0.5, 10, 1, 0,
+                            0, 0.5, 10, 0.5, 1};
 static size_t indices[] = { 0, 1, 2 };
 /* clang-format on */
 

@@ -13,12 +13,27 @@ get_triangle(mesh_iter_t* const iter,
              vertex_t* const b,
              vertex_t* const c);
 
+inline void
+scale_to_screen(const screen_t* const screen, vertex_t* const v)
+{
+  const size_t half_width = screen->width / 2;
+  const size_t half_height = screen->height / 2;
+  v->pos.x = half_width * (v->pos.x + 1);
+  v->pos.y = half_height * (1 - v->pos.y);
+  return;
+}
+
 void
 run_pipeline(const render_pipeline_t* const pipeline, screen_t* const screen)
 {
   vertex_t a = { 0 }, b = { 0 }, c = { 0 };
   for (mesh_iter_t iterator = pipeline->new_mesh_iter(pipeline->mesh);
        get_triangle(&iterator, &a, &b, &c);) {
+
+    scale_to_screen(screen, &a);
+    scale_to_screen(screen, &b);
+    scale_to_screen(screen, &c);
+
     draw_triangle_xy(screen, pipeline->mesh->texture, a, b, c);
   }
 }

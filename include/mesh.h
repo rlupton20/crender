@@ -3,8 +3,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#include <vertex.h>
 #include <texture.h>
+#include <vertex.h>
 
 typedef struct mesh_t mesh_t;
 typedef struct mesh_iter_t mesh_iter_t;

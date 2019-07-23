@@ -1,7 +1,7 @@
 #pragma once
 
-#include <screen.h>
 #include <mesh.h>
+#include <screen.h>
 
 typedef vertex_t(vertex_source_t)(const mesh_iter_t* const iter);
 typedef mesh_iter_t(mesh_iter_builder_t)(const mesh_t* const mesh);
