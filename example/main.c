@@ -43,9 +43,7 @@ main(int argc, char* argv[])
 
   surface_t* surface = new_surface(window);
   screen_t screen = get_screen(surface);
-
   mesh_t mesh = example_mesh(texture);
-
   render_pipeline_t pipeline = default_pipeline(&mesh);
 
   for (bool quit = false; !quit;) {

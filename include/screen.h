@@ -25,7 +25,7 @@ set_pixel(screen_t* const screen, size_t x, size_t y, color_t color)
 }
 
 inline vec2_t
-scale_normalised_coord(const screen_t* const screen, float x, float y)
+projective_cube_to_screen(const screen_t* const screen, float x, float y)
 {
   assert(!(x < -1) && !(y < -1) && !(x > 1) && !(y > 1));
   const size_t half_width = screen->width / 2;
