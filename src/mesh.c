@@ -1,4 +1,4 @@
-#include <vertex.h>
+#include <mesh.h>
 
 size_t
 offset(const mesh_iter_t* const iter);
