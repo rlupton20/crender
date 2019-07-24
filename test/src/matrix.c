@@ -14,12 +14,16 @@ bool
 test_mul_mat4_vec4();
 
 bool
+test_mul_mat4();
+
+bool
 test_matrices()
 {
   RUN_TEST(test_matrix_element);
   RUN_TEST(test_vector_row_cast);
   RUN_TEST(test_vector_dot_product);
   RUN_TEST(test_mul_mat4_vec4);
+  RUN_TEST(test_mul_mat4);
   return true;
 }
 
@@ -66,8 +70,16 @@ bool
 test_mul_mat4_vec4()
 {
   const matrix4_t id = identity_matrix();
-  const vec4_t v = vec4(1,2,3,4);
+  const vec4_t v = vec4(1, 2, 3, 4);
   const vec4_t result = mul_mat4_vec4(id, v);
   ASSERT(vec_eq(v, result));
+  return true;
+}
+
+bool
+test_mul_mat4()
+{
+  const matrix4_t id = identity_matrix();
+  ASSERT(mat4_eq(id, mul_mat4(id, id)));
   return true;
 }

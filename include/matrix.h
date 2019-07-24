@@ -1,7 +1,8 @@
 #pragma once
 
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <vector.h>
 
@@ -9,7 +10,7 @@
 
 typedef struct
 {
-  const float elems[16];
+  float elems[16];
 } matrix4_t;
 
 inline matrix4_t
@@ -25,6 +26,12 @@ identity_matrix()
     }
     /* clang-format on */
   };
+}
+
+inline matrix4_t
+zero_matrix()
+{
+  return (matrix4_t){ 0 };
 }
 
 inline float
@@ -50,4 +57,27 @@ inline bool
 vec4_t_eq(vec4_t l, vec4_t r)
 {
   return l.x == r.x && l.y == r.y && l.z == r.z && l.w == r.w;
+}
+
+
+#define elem(m, r, c) ((m).elems)[(r)*4 + (c)]
+inline matrix4_t
+mul_mat4(const matrix4_t l, const matrix4_t r)
+{
+  matrix4_t ret = zero_matrix();
+
+  for (size_t row = 0; row < 4; ++row)
+    for (size_t col = 0; col < 4; ++col) {
+      elem(ret, row, col) =
+        elem(l, row, 0) * elem(r, 0, col) + elem(l, row, 1) * elem(r, 1, col) +
+        elem(l, row, 2) * elem(r, 2, col) + elem(l, row, 3) * elem(r, 3, col);
+    }
+  return ret;
+}
+#undef elem
+
+inline bool
+mat4_eq(const matrix4_t l, const matrix4_t r)
+{
+  return (memcmp(l.elems, r.elems, 16) == 0);
 }
