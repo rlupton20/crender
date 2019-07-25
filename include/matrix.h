@@ -6,7 +6,8 @@
 
 #include <vector.h>
 
-#define vec_eq(l, r) vec4_t_eq((l), (r))
+#define equal(l, r)                                                            \
+  _Generic((l), vec4_t : vec4_t_eq, matrix4_t : matrix4_t_eq)((l), (r))
 
 typedef struct
 {
@@ -58,7 +59,6 @@ vec4_t_eq(vec4_t l, vec4_t r)
 {
   return l.x == r.x && l.y == r.y && l.z == r.z && l.w == r.w;
 }
-
 
 #define elem(m, r, c) ((m).elems)[(r)*4 + (c)]
 inline matrix4_t
