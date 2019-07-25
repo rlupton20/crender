@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include <vector.h>
 
@@ -80,4 +81,18 @@ inline bool
 matrix4_t_eq(const matrix4_t l, const matrix4_t r)
 {
   return (memcmp(l.elems, r.elems, 16) == 0);
+}
+
+inline matrix4_t
+rotateY(float deg) {
+  return (matrix4_t) {
+    /* clang-format off */
+    .elems = {
+      cosf(deg), 0, sinf(deg), 0,
+      0, 1, 0, 0,
+      - sinf(deg), 0, cosf(deg), 0,
+      0, 0, 0, 1
+    }
+    /* clang-format on */
+  };
 }
