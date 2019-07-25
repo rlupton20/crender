@@ -1,14 +1,22 @@
 #pragma once
 
+#include <math.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
 #include <vector.h>
 
 #define equal(l, r)                                                            \
   _Generic((l), vec4_t : vec4_t_eq, matrix4_t : matrix4_t_eq)((l), (r))
+
+/* clang-format off */
+#define mul(l, r)                                                              \
+  _Generic((l),                                                                \
+           matrix4_t : _Generic((r),                                           \
+                                vec4_t : _multiply_matrix4_t_vec4_t,           \
+                                matrix4_t : _multiply_matrix4_t))((l), (r))
+/* clang-format on */
 
 typedef struct
 {
@@ -49,7 +57,7 @@ row(matrix4_t m, size_t n)
 }
 
 inline vec4_t
-mul_mat4_vec4(const matrix4_t m, const vec4_t v)
+_multiply_matrix4_t_vec4_t(const matrix4_t m, const vec4_t v)
 {
   return vec4(
     dot(row(m, 0), v), dot(row(m, 1), v), dot(row(m, 2), v), dot(row(m, 3), v));
@@ -63,7 +71,7 @@ vec4_t_eq(vec4_t l, vec4_t r)
 
 #define elem(m, r, c) ((m).elems)[(r)*4 + (c)]
 inline matrix4_t
-mul_mat4(const matrix4_t l, const matrix4_t r)
+_multiply_matrix4_t(const matrix4_t l, const matrix4_t r)
 {
   matrix4_t ret = zero_matrix();
 
@@ -84,8 +92,9 @@ matrix4_t_eq(const matrix4_t l, const matrix4_t r)
 }
 
 inline matrix4_t
-rotateY(float deg) {
-  return (matrix4_t) {
+rotateY(float deg)
+{
+  return (matrix4_t){
     /* clang-format off */
     .elems = {
       cosf(deg), 0, sinf(deg), 0,

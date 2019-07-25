@@ -11,10 +11,13 @@ bool
 test_vector_dot_product();
 
 bool
-test_mul_mat4_vec4();
+test_multiply_matrix4_t_vec4_t();
 
 bool
-test_mul_mat4();
+test_multiply_matrix4_t();
+
+bool
+test_mul_macro();
 
 bool
 test_matrices()
@@ -22,8 +25,9 @@ test_matrices()
   RUN_TEST(test_matrix_element);
   RUN_TEST(test_vector_row_cast);
   RUN_TEST(test_vector_dot_product);
-  RUN_TEST(test_mul_mat4_vec4);
-  RUN_TEST(test_mul_mat4);
+  RUN_TEST(test_multiply_matrix4_t_vec4_t);
+  RUN_TEST(test_multiply_matrix4_t);
+  RUN_TEST(test_mul_macro);
   return true;
 }
 
@@ -67,19 +71,31 @@ test_vector_dot_product()
 }
 
 bool
-test_mul_mat4_vec4()
+test_multiply_matrix4_t_vec4_t()
 {
   const matrix4_t id = identity_matrix();
   const vec4_t v = vec4(1, 2, 3, 4);
-  const vec4_t result = mul_mat4_vec4(id, v);
+  const vec4_t result = _multiply_matrix4_t_vec4_t(id, v);
   ASSERT(equal(v, result));
   return true;
 }
 
 bool
-test_mul_mat4()
+test_multiply_matrix4_t()
 {
   const matrix4_t id = identity_matrix();
-  ASSERT(equal(id, mul_mat4(id, id)));
+  ASSERT(equal(id, _multiply_matrix4_t(id, id)));
+  return true;
+}
+
+bool
+test_mul_macro()
+{
+  const matrix4_t id = identity_matrix();
+  const matrix4_t z = zero_matrix();
+  const vec4_t v = vec4(1, 2, 3, 4);
+
+  ASSERT(equal(mul(id, z), z));
+  ASSERT(equal(mul(id, v), v));
   return true;
 }
