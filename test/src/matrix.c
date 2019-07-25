@@ -80,6 +80,6 @@ bool
 test_mul_mat4()
 {
   const matrix4_t id = identity_matrix();
-  ASSERT(mat4_eq(id, mul_mat4(id, id)));
+  ASSERT(matrix4_t_eq(id, mul_mat4(id, id)));
   return true;
 }

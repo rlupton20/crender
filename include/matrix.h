@@ -77,7 +77,7 @@ mul_mat4(const matrix4_t l, const matrix4_t r)
 #undef elem
 
 inline bool
-mat4_eq(const matrix4_t l, const matrix4_t r)
+matrix4_t_eq(const matrix4_t l, const matrix4_t r)
 {
   return (memcmp(l.elems, r.elems, 16) == 0);
 }
