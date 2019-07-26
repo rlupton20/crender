@@ -24,11 +24,17 @@ scale_to_screen(const screen_t* const screen, vertex_t* const v)
 }
 
 void
-run_pipeline(const render_pipeline_t* const pipeline, screen_t* const screen)
+run_pipeline(const render_pipeline_t* const pipeline,
+             screen_t* const screen,
+             const void* const data)
 {
   vertex_t a = { 0 }, b = { 0 }, c = { 0 };
   for (mesh_iter_t iterator = pipeline->new_mesh_iter(pipeline->mesh);
        get_triangle(&iterator, &a, &b, &c);) {
+
+    a = (pipeline->vertex_shader)(a, data);
+    b = (pipeline->vertex_shader)(b, data);
+    c = (pipeline->vertex_shader)(c, data);
 
     scale_to_screen(screen, &a);
     scale_to_screen(screen, &b);
@@ -55,4 +61,10 @@ get_triangle(mesh_iter_t* const iter,
   }
 
   return true;
+}
+
+vertex_t
+identity_shader(vertex_t vertex, const void* const data)
+{
+  return vertex;
 }

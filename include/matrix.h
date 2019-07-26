@@ -91,7 +91,7 @@ matrix4_t_eq(const matrix4_t l, const matrix4_t r)
   return (memcmp(l.elems, r.elems, 16) == 0);
 }
 
-inline matrix4_t
+matrix4_t
 rotateY(float deg)
 {
   return (matrix4_t){
