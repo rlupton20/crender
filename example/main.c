@@ -90,7 +90,7 @@ main(int argc, char* argv[])
 vertex_t
 rotation_shader(vertex_t vertex, const void* const data)
 {
-  transform_t* transform = (transform_t*)data;
+  const transform_t* const transform = (const transform_t* const)data;
 
   vec4_t pos = vec4(vertex.pos.x, vertex.pos.y, vertex.pos.z, 1);
   pos = mul(transform->transform, pos);
