@@ -64,7 +64,10 @@ main(int argc, char* argv[])
       }
     }
 
-    transform_t transform = { .transform = rotateY(deg) };
+    transform_t transform = {
+      .transform = mul(projection_matrix(70, aspect_ratio(&screen), 0.1, 100),
+                       mul(translateZ(3), rotateY(deg)))
+    };
 
     // Redraw the scene
     clear_screen(&screen, color(0, 0, 50));
@@ -94,7 +97,7 @@ rotation_shader(vertex_t vertex, const void* const data)
 
   vec4_t pos = vec4(vertex.pos.x, vertex.pos.y, vertex.pos.z, 1);
   pos = mul(transform->transform, pos);
-  vertex.pos = vec3(pos.x, pos.y, pos.z);
+  vertex.pos = vec3(pos.x / pos.w, pos.y / pos.w, pos.z / pos.w);
 
   return vertex;
 }

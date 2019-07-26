@@ -18,12 +18,14 @@
                                 matrix4_t : _multiply_matrix4_t))((l), (r))
 /* clang-format on */
 
+static const float pi = 3.14159;
+
 typedef struct
 {
   float elems[16];
 } matrix4_t;
 
-inline matrix4_t
+static inline matrix4_t
 identity_matrix()
 {
   return (matrix4_t){
@@ -70,7 +72,7 @@ vec4_t_eq(vec4_t l, vec4_t r)
 }
 
 #define elem(m, r, c) ((m).elems)[(r)*4 + (c)]
-inline matrix4_t
+matrix4_t
 _multiply_matrix4_t(const matrix4_t l, const matrix4_t r)
 {
   matrix4_t ret = zero_matrix();
@@ -101,6 +103,44 @@ rotateY(float deg)
       0, 1, 0, 0,
       - sinf(deg), 0, cosf(deg), 0,
       0, 0, 0, 1
+    }
+    /* clang-format on */
+  };
+}
+
+static inline matrix4_t
+translateZ(float mov)
+{
+  return (matrix4_t){
+    /* clang-format off */
+    .elems = {
+              1, 0, 0, 0,
+              0, 1, 0, 0,
+              0, 0, 1, mov,
+              0, 0, 0, 1
+              }
+    /* clang-format on */
+  };
+}
+
+static inline matrix4_t
+projection_matrix(const float fov,
+                  const float aspect_ratio,
+                  const float z_near,
+                  const float z_far)
+{
+  const float rads = fov * pi / 180;
+  float fov_scale = tanf(rads / 2);
+  // z \mapsto A + Bz
+  const float A = 2 * z_far * z_near / (z_near - z_far);
+  const float B = (z_far - z_near) / (z_far + z_near);
+  return (matrix4_t){
+    /* clang-format off */
+    .elems = {
+              1 / (aspect_ratio * fov_scale), 0, 0, 0,
+              0,      1 / fov_scale, 0, 0,
+              0,      0, B, A,
+              0,      0, 1, 0
     }
     /* clang-format on */
   };
