@@ -40,39 +40,39 @@ identity_matrix()
   };
 }
 
-inline matrix4_t
+static inline matrix4_t
 zero_matrix()
 {
   return (matrix4_t){ 0 };
 }
 
-inline float
+static inline float
 matrix_element(matrix4_t m, size_t row, size_t column)
 {
   return m.elems[4 * row + column];
 }
 
-inline vec4_t
+static inline vec4_t
 row(matrix4_t m, size_t n)
 {
   return *vec4_from_floats(m.elems + 4 * n);
 }
 
-inline vec4_t
+static inline vec4_t
 _multiply_matrix4_t_vec4_t(const matrix4_t m, const vec4_t v)
 {
   return vec4(
     dot(row(m, 0), v), dot(row(m, 1), v), dot(row(m, 2), v), dot(row(m, 3), v));
 }
 
-inline bool
+static inline bool
 vec4_t_eq(vec4_t l, vec4_t r)
 {
   return l.x == r.x && l.y == r.y && l.z == r.z && l.w == r.w;
 }
 
 #define elem(m, r, c) ((m).elems)[(r)*4 + (c)]
-matrix4_t
+static inline matrix4_t
 _multiply_matrix4_t(const matrix4_t l, const matrix4_t r)
 {
   matrix4_t ret = zero_matrix();
@@ -87,13 +87,13 @@ _multiply_matrix4_t(const matrix4_t l, const matrix4_t r)
 }
 #undef elem
 
-inline bool
+static inline bool
 matrix4_t_eq(const matrix4_t l, const matrix4_t r)
 {
   return (memcmp(l.elems, r.elems, 16) == 0);
 }
 
-matrix4_t
+static inline matrix4_t
 rotateY(float deg)
 {
   return (matrix4_t){

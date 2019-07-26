@@ -3,32 +3,32 @@
 
 #include <triangle.h>
 
-inline float
+static inline float
 min(float a, float b)
 {
   return a < b ? a : b;
 }
 
-inline float
+static inline float
 min3(float a, float b, float c)
 {
   return min(a, min(b, c));
 }
 
-inline float
+static inline float
 max(float a, float b)
 {
   return a < b ? b : a;
 }
 
-inline float
+static inline float
 max3(float a, float b, float c)
 {
   return max(a, max(b, c));
 }
 
 /* l1 . a + l2 . b + (1 - l1 - l2) c */
-inline vec3_t
+static inline vec3_t
 get_barycentric_coords(size_t x,
                        size_t y,
                        const vec3_t a,
@@ -41,7 +41,7 @@ get_barycentric_coords(size_t x,
   return vec3(l1, l2, 1 - l1 - l2);
 }
 
-inline vec4_t
+static inline vec4_t
 bounding_box(const vec3_t a, const vec3_t b, const vec3_t c)
 {
   return vec4(floor(min3(a.x, b.x, c.x)),
@@ -50,14 +50,14 @@ bounding_box(const vec3_t a, const vec3_t b, const vec3_t c)
               ceil(max3(a.y, b.y, c.y)));
 }
 
-inline bool
+static inline bool
 inside_triangle(const vec3_t barycentric_coords)
 {
   return barycentric_coords.x >= 0 && barycentric_coords.y >= 0 &&
          barycentric_coords.x + barycentric_coords.y <= 1;
 }
 
-inline vec2_t
+static inline vec2_t
 interpolate(vec3_t barycentric_coords, vec2_t a, vec2_t b, vec2_t c)
 {
   const float l1 = barycentric_coords.x;

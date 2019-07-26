@@ -18,7 +18,7 @@ typedef struct render_pipeline_t
   vertex_shader_t* vertex_shader;
 } render_pipeline_t;
 
-inline render_pipeline_t
+static inline render_pipeline_t
 default_pipeline(const mesh_t* const mesh, vertex_shader_t* vertex_shader)
 {
   return (render_pipeline_t){ .mesh = mesh,
