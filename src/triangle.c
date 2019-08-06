@@ -3,6 +3,11 @@
 
 #include <triangle.h>
 
+#define interpolate(barycentric_coords, a, b, c)                               \
+  _Generic((a), vec2_t                                                         \
+           : interpolate_vec2_t, vec3_t                                        \
+           : interpolate_vec3_t)((barycentric_coords), (a), (b), (c))
+
 static inline float
 min(float a, float b)
 {
@@ -58,12 +63,23 @@ inside_triangle(const vec3_t barycentric_coords)
 }
 
 static inline vec2_t
-interpolate(vec3_t barycentric_coords, vec2_t a, vec2_t b, vec2_t c)
+interpolate_vec2_t(vec3_t barycentric_coords, vec2_t a, vec2_t b, vec2_t c)
 {
   const float l1 = barycentric_coords.x;
   const float l2 = barycentric_coords.y;
   const float l3 = barycentric_coords.z;
   return vec2(a.x * l1 + b.x * l2 + c.x * l3, a.y * l1 + b.y * l2 + c.y * l3);
+}
+
+static inline vec3_t
+interpolate_vec3_t(vec3_t barycentric_coords, vec3_t a, vec3_t b, vec3_t c)
+{
+  const float l1 = barycentric_coords.x;
+  const float l2 = barycentric_coords.y;
+  const float l3 = barycentric_coords.z;
+  return vec3(a.x * l1 + b.x * l2 + c.x * l3,
+              a.y * l1 + b.y * l2 + c.y * l3,
+              a.z * l1 + b.z * l2 + c.z * l3);
 }
 
 void
@@ -82,6 +98,8 @@ draw_triangle_xy(screen_t* const screen,
       if (inside_triangle(coords)) {
         const vec2_t sample =
           interpolate(coords, a.surface, b.surface, c.surface);
+        const vec3_t normal = interpolate(coords, a.normal, b.normal, c.normal);
+        (void)normal;
         set_pixel(screen, x, y, sample_texture(texture, sample.x, sample.y));
       }
     }
