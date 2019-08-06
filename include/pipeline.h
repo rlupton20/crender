@@ -6,6 +6,9 @@
 typedef vertex_t(vertex_source_t)(const mesh_iter_t* const iter);
 typedef mesh_iter_t(mesh_iter_builder_t)(const mesh_t* const mesh);
 typedef vertex_t(vertex_shader_t)(vertex_t vertex, const void* const data);
+typedef color_t(fragment_shader_t)(color_t sample,
+                                   vec3_t normal,
+                                   const void* const data);
 
 vertex_t
 identity_shader(vertex_t vertex, const void* const data);
@@ -16,15 +19,19 @@ typedef struct render_pipeline_t
   mesh_iter_builder_t* new_mesh_iter;
   vertex_source_t* vertex_source;
   vertex_shader_t* vertex_shader;
+  fragment_shader_t* fragment_shader;
 } render_pipeline_t;
 
 static inline render_pipeline_t
-default_pipeline(const mesh_t* const mesh, vertex_shader_t* vertex_shader)
+default_pipeline(const mesh_t* const mesh,
+                 vertex_shader_t* vertex_shader,
+                 fragment_shader_t* fragment_shader)
 {
   return (render_pipeline_t){ .mesh = mesh,
                               .new_mesh_iter = mesh_iterator,
                               .vertex_source = get_vertex,
-                              .vertex_shader = vertex_shader };
+                              .vertex_shader = vertex_shader,
+                              .fragment_shader = fragment_shader };
 }
 
 void

@@ -85,6 +85,7 @@ interpolate_vec3_t(vec3_t barycentric_coords, vec3_t a, vec3_t b, vec3_t c)
 void
 draw_triangle_xy(screen_t* const screen,
                  const texture_t* const texture,
+                 fragment_shader_t* const fragment_shader,
                  const vertex_t a,
                  const vertex_t b,
                  const vertex_t c)
@@ -99,8 +100,9 @@ draw_triangle_xy(screen_t* const screen,
         const vec2_t sample =
           interpolate(coords, a.surface, b.surface, c.surface);
         const vec3_t normal = interpolate(coords, a.normal, b.normal, c.normal);
-        (void)normal;
-        set_pixel(screen, x, y, sample_texture(texture, sample.x, sample.y));
+        color_t color = fragment_shader(
+          sample_texture(texture, sample.x, sample.y), normal, NULL);
+        set_pixel(screen, x, y, color);
       }
     }
   }

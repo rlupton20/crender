@@ -15,6 +15,9 @@ typedef struct
 vertex_t
 rotation_shader(vertex_t vertex, const void* const data);
 
+color_t
+sample_shader(color_t sample, vec3_t normal, const void* const data);
+
 int
 main(int argc, char* argv[])
 {
@@ -53,7 +56,8 @@ main(int argc, char* argv[])
   surface_t* surface = new_surface(window);
   screen_t screen = get_screen(surface);
   mesh_t mesh = example_mesh(texture);
-  render_pipeline_t pipeline = default_pipeline(&mesh, rotation_shader);
+  render_pipeline_t pipeline =
+    default_pipeline(&mesh, rotation_shader, sample_shader);
 
   float deg = 0;
   for (bool quit = false; !quit;) {
@@ -100,4 +104,10 @@ rotation_shader(vertex_t vertex, const void* const data)
   vertex.pos = vec3(pos.x / pos.w, pos.y / pos.w, pos.z / pos.w);
 
   return vertex;
+}
+
+color_t
+sample_shader(color_t sample, vec3_t normal, const void* const data)
+{
+  return sample;
 }

@@ -40,7 +40,8 @@ run_pipeline(const render_pipeline_t* const pipeline,
     scale_to_screen(screen, &b);
     scale_to_screen(screen, &c);
 
-    draw_triangle_xy(screen, pipeline->mesh->texture, a, b, c);
+    draw_triangle_xy(
+      screen, pipeline->mesh->texture, pipeline->fragment_shader, a, b, c);
   }
 }
 
