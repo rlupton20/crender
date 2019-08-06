@@ -4,11 +4,10 @@
 #include <pipeline.h>
 #include <texture.h>
 
-#define interpolate(barycentric_coords, a, b, c)                      \
-  _Generic((a), vec2_t                                                \
-           : interpolate_vec2_t, vec3_t                               \
+#define interpolate(barycentric_coords, a, b, c)                               \
+  _Generic((a), vec2_t                                                         \
+           : interpolate_vec2_t, vec3_t                                        \
            : interpolate_vec3_t)((barycentric_coords), (a), (b), (c))
-
 
 /*
  * Populate three vertices to form a triangle.
