@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdbool.h>
 
-#include <triangle.h>
+#include "triangle.h"
 
 #define interpolate(barycentric_coords, a, b, c)                               \
   _Generic((a), vec2_t                                                         \
@@ -86,6 +86,7 @@ void
 draw_triangle_xy(screen_t* const screen,
                  const texture_t* const texture,
                  fragment_shader_t* const fragment_shader,
+                 const void* const data,
                  const vertex_t a,
                  const vertex_t b,
                  const vertex_t c)
