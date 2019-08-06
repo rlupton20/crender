@@ -1,6 +1,7 @@
 #pragma once
 
-#define dot(a, b) dot_vec4_t((a), (b))
+#define dot(a, b)                                                              \
+  _Generic((a), vec3_t : dot_vec3_t, vec4_t : dot_vec4_t)((a), (b))
 
 typedef struct vec2_t
 {
@@ -51,4 +52,10 @@ static inline float
 dot_vec4_t(const vec4_t a, const vec4_t b)
 {
   return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+}
+
+static inline float
+dot_vec3_t(const vec3_t a, const vec3_t b)
+{
+  return a.x * b.x + a.y * b.y + a.z * b.z;
 }

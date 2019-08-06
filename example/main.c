@@ -103,11 +103,22 @@ rotation_shader(vertex_t vertex, const void* const data)
   pos = mul(transform->transform, pos);
   vertex.pos = vec3(pos.x / pos.w, pos.y / pos.w, pos.z / pos.w);
 
+  vec4_t normal = vec4(vertex.normal.x, vertex.normal.y, vertex.normal.z, 0);
+  normal = mul(transform->transform, normal);
+  vertex.normal = vec3(normal.x, normal.y, normal.z);
+
   return vertex;
+}
+
+static inline float
+max(float a, float b)
+{
+  return a < b ? b : a;
 }
 
 color_t
 sample_shader(color_t sample, vec3_t normal, const void* const data)
 {
-  return sample;
+  const float dampen = max(0, dot(normal, vec3(0, 0, 1)));
+  return multiply(sample, dampen);
 }
