@@ -33,6 +33,7 @@ get_vertex(const mesh_iter_t* const iter)
   const float* const base = iter->mesh->vertex_data + offset(iter);
   v.pos = vec3(base[0], base[1], base[2]);
   v.surface = vec2(base[3], base[4]);
+  v.normal = vec3(base[5], base[6], base[7]);
   return v;
 }
 
@@ -46,9 +47,9 @@ offset(const mesh_iter_t* const iter)
  * Demo example
  */
 /* clang-format off */
-static float vertices[] = { -0.5, -0.5, 0, 0, 0,
-                            0.5, -0.5, 0, 1, 0,
-                            0, 0.5, 0, 0.5, 1};
+static float vertices[] = { -0.5, -0.5, 0, 0, 0, 0, 0, -1,
+                            0.5, -0.5, 0, 1, 0, 0, 0, -1,
+                            0, 0.5, 0, 0.5, 1, 0, 0, -1};
 static size_t indices[] = { 0, 1, 2 };
 /* clang-format on */
 
@@ -57,7 +58,7 @@ example_mesh(const texture_t* const texture)
 {
   return (mesh_t){ .vertex_data = vertices,
                    .num_vertices = 3,
-                   .stride = 5,
+                   .stride = 8,
                    .indices = indices,
                    .num_indices = 3,
                    .texture = texture };
